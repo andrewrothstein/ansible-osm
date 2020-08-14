@@ -1,0 +1,16 @@
+---
+# defaults file for osm
+osm_ver: v0.3.0
+osm_os: linux
+osm_arch: amd64
+osm_parent_install_dir: /usr/local
+osm_mirror: https://github.com/openservicemesh/osm/releases/download
+osm_checksums:
+  # https://github.com/openservicemesh/osm/releases/download/v0.3.0/sha256sums.txt
+  'v0.3.0':
+      # https://github.com/openservicemesh/osm/releases/download/v0.3.0/osm-v0.3.0-darwin-amd64.tar.gz
+      darwin-amd64: sha256:454b3be1c65ca2a26a1a6ae4fcfaa541fd8a89c15f9459a1acf5bc679fe60f15
+      # https://github.com/openservicemesh/osm/releases/download/v0.3.0/osm-v0.3.0-linux-amd64.tar.gz
+      linux-amd64: sha256:541dc7b9efc62268192e4a92155842d1dd8f3ae22953274da364d921ff99d066
+      # https://github.com/openservicemesh/osm/releases/download/v0.3.0/osm-v0.3.0-windows-amd64.tar.gz
+      windows-amd64: sha256:75e91fdfdd275924bcec9f1f1584a0a7563941296993e91c82efe280f78ca3d6

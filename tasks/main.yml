@@ -1,0 +1,56 @@
+---
+- name: resolve platform specific vars
+  include_vars: '{{ item }}'
+  with_first_found:
+    - files:
+        - '{{ ansible_distribution }}-{{ ansible_distribution_release }}.yml'
+        - '{{ ansible_distribution }}.yml'
+        - '{{ ansible_os_family }}.yml'
+      skip: true
+      paths:
+        - '{{ role_path }}/vars'
+- name: look for osm:{{ osm_ver }} install...
+  become: yes
+  stat:
+    path: '{{ osm_installed_exe }}'
+  changed_when: False
+  register: osm_binary
+- when: not osm_binary.stat.exists
+  block:
+    - name: download {{ osm_url }}...
+      become: yes
+      become_user: root
+      get_url:
+        url: '{{ osm_url }}'
+        dest: /tmp/{{ osm_tgz }}
+        checksum: '{{ osm_checksum }}'
+        mode: 0644
+    - name: mkdir {{ osm_install_dir }}
+      become: yes
+      become_user: root
+      file:
+        path: '{{ osm_install_dir }}'
+        state: directory
+        mode: 0755
+    - name: unarchive /tmp/{{ osm_tgz }} into {{ osm_install_dir }}
+      become: yes
+      become_user: root
+      unarchive:
+        remote_src: yes
+        src: /tmp/{{ osm_tgz }}
+        dest: '{{ osm_install_dir }}'
+        creates: '{{ osm_installed_exe }}'
+  always:
+    - name: removing /tmp/{{ osm_tgz }}
+      become: yes
+      become_user: root
+      file:
+        path: /tmp/{{ osm_tgz }}
+        state: absent
+- name: link {{ osm_installed_link }} to {{ osm_installed_exe }}
+  become: yes
+  become_user: root
+  file:
+    src: '{{ osm_installed_exe }}'
+    dest: '{{ osm_installed_link }}'
+    state: link

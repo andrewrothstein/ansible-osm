@@ -1,0 +1,9 @@
+---
+# vars file for osm
+osm_platform: '{{ osm_os }}-{{ osm_arch }}'
+osm_tgz: osm-{{ osm_ver }}-{{ osm_platform }}.tar.gz
+osm_url: '{{ osm_mirror }}/{{ osm_ver }}/{{ osm_tgz }}'
+osm_checksum: '{{ osm_checksums[osm_ver][osm_platform] }}'
+osm_install_dir: '{{ osm_parent_install_dir }}/osm-{{ osm_ver }}'
+osm_installed_exe: '{{ osm_install_dir }}/{{ osm_platform }}/osm'
+osm_installed_link: '{{ osm_parent_install_dir }}/bin/osm'
